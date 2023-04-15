@@ -1,7 +1,7 @@
 # iptv-checker
 最简单的iptv检测脚本。
 
-linux直接运行，windows需要msys2或者mingw运行，依赖curl。
+linux直接运行，windows需要msys2或者mingw运行，依赖curl、iconv。
 
 命令：
 ```
