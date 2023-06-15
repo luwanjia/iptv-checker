@@ -7,7 +7,7 @@ function check_url()
 	time_expire=$3
 	for i in {1, 2, 3}
 	do
-		res_url=`curl -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time 1 "$1"`
+		res_url=`curl -L -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time 1 "$1"`
 
 		time_namelookup=`echo $res_url | awk '{print $1}'`
 		time_connect=`echo $res_url | awk '{print $2}'`
@@ -82,7 +82,7 @@ do
 	m3u_file_gbk="output_gbk/$m3u_name.m3u"
 
 	# 检查URL
-	check_url "$m3u_url" "$m3u_info" 0.2
+	check_url "$m3u_url" "$m3u_info" 0.5
 
 	if [ $? = 0 ]
 	then
