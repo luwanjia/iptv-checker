@@ -82,7 +82,7 @@ do
 	m3u_file_gbk="output_gbk/$m3u_name.m3u"
 
 	# 检查URL
-	check_url "$m3u_url" "$m3u_info" 0.5
+	check_url "$m3u_url" "$m3u_info" 0.6
 
 	if [ $? = 0 ]
 	then
