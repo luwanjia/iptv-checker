@@ -75,7 +75,7 @@ do
 	m3u_name="all"
 	if [ -n "$m3u_info" ]
 	then
-		 m3u_name=`echo ${m3u_info#*,} | sed 's/[\[\/\\\|\?\"\*\:\<\>\.]//g' | sed 's/\]//g'`
+		 m3u_name=`echo ${m3u_info#*,} | sed 's/[\[\/\\\|\?\"\*\:\<\>\.]//g' | sed 's/\]//g' | tr -d ' '`
 	fi
 
 	m3u_file="output/$m3u_name.m3u"
