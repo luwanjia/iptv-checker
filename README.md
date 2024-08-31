@@ -5,7 +5,12 @@ linux直接运行，windows需要msys2或者mingw运行，依赖curl、iconv。
 
 命令：
 ```
-$ sh iptv-checker.sh <m3u文件>
+$ -- Usage: sh iptv-checker.sh [option] <file.m3u>
+    -e time threshold to define m3u8 quality.
+       value range is 0.5 to 5
+    -t time threshold for curl connection.
+       value range is 1 to 10
+    -h help info.
 ```
 输出：
   * output -- 目录，UTF-8格式，适用linux，一个频道一个文件

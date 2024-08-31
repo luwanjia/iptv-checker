@@ -51,7 +51,7 @@ function check_threshold()
 
 function usage()
 {
-    echo "-- Usage: $0 [option] <file.m3u>"
+    echo "Usage: sh $0 [option] <file.m3u>"
     echo "    -e time threshold to define m3u8 quality."
     echo "       value range is 0.5 to 5"
     echo "    -t time threshold for curl connection."
