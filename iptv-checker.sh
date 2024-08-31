@@ -50,7 +50,7 @@ if [ -f "$m3u_all" ]; then
 	rm $m3u_all -f
 fi	
 
-cat $1 | while read line
+cat $1 | tr -d '\r' | while read line
 do
 	url_pre=${line%%:*}
 	if [ ! "$url_pre" = "#EXTINF" ] && [ ! "$url_pre" = "http" ]
