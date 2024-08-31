@@ -44,6 +44,11 @@ function check_threshold()
     local lower="$2"
     local upper="$3"
 
+    if ! [[ "$num" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
+        echo "false"
+        return
+    fi
+
     # 使用 awk 进行浮点数比较
     awk -v num="$num" -v lower="$lower" -v upper="$upper" \
     'BEGIN { if (num >= lower && num <= upper) print "true"; else print "false" }'
@@ -103,7 +108,7 @@ done
 
 shift $((OPTIND - 1))
 
-# 01 检查是否还有选项在参数之后
+# 检查是否还有选项在参数之后
 if [ "$options_processed" -eq 0 ] && [ "$#" -gt 1 ]; then
     echo "-- error: options must be specified before positional arguments"
     exit 1
@@ -114,7 +119,7 @@ EXPIRE_MAX=5
 TIME_MIN=1
 TIME_MAX=10
 
-# 02 参数默认值
+# 参数默认值
 if [ -z "$curl_time_expire" ]; then
     curl_time_expire=$EXPIRE_MIN
 fi
@@ -122,29 +127,19 @@ if [ -z "$curl_time_max" ]; then
     curl_time_max=$TIME_MIN
 fi
 
-# 03 校验参数是否为有效数字（包括小数）
-if ! [[ "$curl_time_expire" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
-    echo "-- error: The parameter of option '-e' must be a number."
-    exit 1
-fi
-if ! [[ "$curl_time_max" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
-    echo "-- error: The parameter of option '-t' must be a number."
-    exit 1
-fi
-
-# 04 校验参数是否在指定范围内
+# 校验参数是否在指定范围内
 result=$(check_threshold "$curl_time_expire" "$EXPIRE_MIN" "$EXPIRE_MAX")
 if [ "$result" = "false" ]; then
-    echo "-- error: The value for option '-e' must be between $EXPIRE_MIN and $EXPIRE_MAX."
+    echo "-- error: The value for option '-e' must be a number [$EXPIRE_MIN, $EXPIRE_MAX]"
     exit 1
 fi
 result=$(check_threshold "$curl_time_max" "$TIME_MIN" "$TIME_MAX")
 if [ "$result" = "false" ]; then
-    echo "-- error: The value for option '-t' must be between $TIME_MIN and $TIME_MAX"
+    echo "-- error: The value for option '-t' must be a number [$EXPIRE_MIN, $EXPIRE_MAX]"
     exit 1
 fi
 
-# 05 校验剩余参数个数
+# 校验剩余参数个数
 if [ $# -eq 0 ]; then
     usage
     exit 0
