@@ -6,7 +6,7 @@ linux直接运行，windows需要msys2或者mingw运行，依赖curl、iconv。
 
 命令：
 ```
-$ -- Usage: sh iptv-checker.sh [option] <file.m3u>
+-- Usage: sh iptv-checker.sh [option] <file.m3u>
     -e time threshold to define m3u8 quality.
        value range is 0.5 to 5
     -t time threshold for curl connection.
@@ -51,11 +51,11 @@ http://183.207.249.9/PLTV/3/224/3221225530/index.m3u8
 
 %{http_code}为200的表示该m3u资源有效
 
-%{time_total}为连接创建完成并开始传输总时间，数值越小表示网络延迟越好
+%{time_total}为连接创建完成并开始传输总时间，数值越小表示网络延迟越小
 
 
 
-因此，为了选择优质m3u资源，通过-e参数值与%{time_total}比较可完成筛选; 但是curl连接有个时间上限，即-t参数，-e参数表示curl检测的最大时长; -e参数值一般小于-t参数值;
+因此，为了选择优质m3u资源，通过-e参数值与%{time_total}比较可完成筛选; 但是curl连接有个时间上限，即-t参数，-t参数表示curl检测的最大时长; -e参数值一般小于-t参数值;
 
 
 
