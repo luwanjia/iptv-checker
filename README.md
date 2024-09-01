@@ -1,4 +1,4 @@
-# iptv-checker
+# iptv-checker(直播源检测工具)
 ## 0 介绍
 最简单的iptv检测脚本
 
