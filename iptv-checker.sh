@@ -139,7 +139,7 @@ if [ "$result" = "false" ]; then
 fi
 result=$(check_threshold "$curl_time_max" "$TIME_MIN" "$TIME_MAX")
 if [ "$result" = "false" ]; then
-    echo "-- error: The value for option '-t' must be a number [$EXPIRE_MIN, $EXPIRE_MAX]"
+    echo "-- error: The value for option '-t' must be a number [$TIME_MIN, $TIME_MAX]"
     exit 1
 fi
 
