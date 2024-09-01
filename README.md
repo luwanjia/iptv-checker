@@ -47,15 +47,15 @@ http://183.207.249.9/PLTV/3/224/3221225530/index.m3u8
 
 
 
-其中重点是%{http_code}和%{time_total}
+其中重点是%{http_code}和%{time_starttransfer}
 
 %{http_code}为200的表示该m3u资源有效
 
-%{time_total}为连接创建完成并开始传输总时间，数值越小表示网络延迟越小
+%{time_starttransfer}为连接创建完成并开始传输时间，数值越小表示网络延迟越小
 
 
 
-因此，为了选择优质m3u资源，通过-e参数值与%{time_total}比较可完成筛选; 但是curl连接有个时间上限，即-t参数，-t参数表示curl检测的最大时长; -e参数值一般小于-t参数值;
+因此，为了选择优质m3u资源，通过-e参数值与%{time_starttransfer}比较可完成筛选; 但是curl连接有个时间上限，即-t参数，-t参数表示curl检测的最大时长; -e参数值一般小于-t参数值;
 
 
 

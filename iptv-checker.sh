@@ -23,11 +23,11 @@ function check_url()
         then
             break
         fi
-        time_set="$max_set"
-        time_exp="$exp_set"
+        max_set="$time_max"
+        exp_set="$time_exp"
     done
 
-    if [ ! "$http_code" == "200" ] || [ `expr $time_total \> $exp_set` -eq 1 ]
+    if [ ! "$http_code" == "200" ] || [ `expr $time_starttransfer \> $exp_set` -eq 1 ]
     then
         echo -e "\033[31m-- [Failed ] $time_namelookup\t$time_connect\t$time_starttransfer\t$time_total\t$speed_download\t$http_code\033[0m"
         echo -e "\033[31m--     $ck_name\033[0m"
