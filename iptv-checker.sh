@@ -2,14 +2,16 @@
 
 function check_url()
 {
-    ck_url=$1
-    ck_name=$2
-    time_expire=$3
-    time_max=$4
+    local ck_url=$1
+    local ck_name=$2
+    local time_exp=$3
+    local time_max=$4
+    local exp_set=0.5
+    local max_set=1
 
     for i in {1, 2, 3}
     do
-        res_url=`curl -L -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time $time_max "$1"`
+        res_url=`curl -L -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time $max_set "$1"`
 
         time_namelookup=`echo $res_url | awk '{print $1}'`
         time_connect=`echo $res_url | awk '{print $2}'`
@@ -17,13 +19,15 @@ function check_url()
         time_total=`echo $res_url | awk '{print $4}'`
         speed_download=`echo $res_url | awk '{print $5}'`
         http_code=`echo $res_url | awk '{print $6}'`
-        if [ `expr $time_total \< $time_expire` -eq 1 ]
+        if [ `expr $time_total \< $exp_set` -eq 1 ]
         then
             break
         fi
+        time_set="$max_set"
+        time_exp="$exp_set"
     done
 
-    if [ ! "$http_code" == "200" ] || [ `expr $time_total \> $time_expire` -eq 1 ]
+    if [ ! "$http_code" == "200" ] || [ `expr $time_total \> $exp_set` -eq 1 ]
     then
         echo -e "\033[31m-- [Failed ] $time_namelookup\t$time_connect\t$time_starttransfer\t$time_total\t$speed_download\t$http_code\033[0m"
         echo -e "\033[31m--     $ck_name\033[0m"
@@ -88,7 +92,7 @@ while getopts "he:t:" opt; do
             exit 0
             ;;
         e)
-            curl_time_expire=$OPTARG
+            curl_time_exp=$OPTARG
             options_processed=1
             ;;
         t)
@@ -120,15 +124,15 @@ TIME_MIN=1
 TIME_MAX=10
 
 # 参数默认值
-if [ -z "$curl_time_expire" ]; then
-    curl_time_expire=$EXPIRE_MIN
+if [ -z "$curl_time_exp" ]; then
+    curl_time_exp=$EXPIRE_MIN
 fi
 if [ -z "$curl_time_max" ]; then
     curl_time_max=$TIME_MIN
 fi
 
 # 校验参数是否在指定范围内
-result=$(check_threshold "$curl_time_expire" "$EXPIRE_MIN" "$EXPIRE_MAX")
+result=$(check_threshold "$curl_time_exp" "$EXPIRE_MIN" "$EXPIRE_MAX")
 if [ "$result" = "false" ]; then
     echo "-- error: The value for option '-e' must be a number [$EXPIRE_MIN, $EXPIRE_MAX]"
     exit 1
@@ -177,7 +181,7 @@ do
     m3u_file_gbk="output_gbk/$m3u_name.m3u"
 
     # 检查URL
-    check_url "$m3u_url" "$m3u_info" "$curl_time_expire" "$curl_time_max"
+    check_url "$m3u_url" "$m3u_info" "$curl_time_exp" "$curl_time_max"
 
     if [ $? = 0 ]
     then
