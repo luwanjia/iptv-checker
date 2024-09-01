@@ -11,7 +11,7 @@ function check_url()
 
     for i in {1, 2, 3}
     do
-        res_url=`curl -L -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time $max_set "$1"`
+        res_url=`curl -L -o /dev/null -s -w "%{time_namelookup}\t%{time_connect}\t%{time_starttransfer}\t%{time_total}\t%{speed_download}\t%{http_code}\n" --max-time $max_set "$ck_url"`
 
         time_namelookup=`echo $res_url | awk '{print $1}'`
         time_connect=`echo $res_url | awk '{print $2}'`
